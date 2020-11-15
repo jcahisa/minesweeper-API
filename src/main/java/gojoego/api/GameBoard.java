@@ -1,6 +1,7 @@
 package gojoego.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Arrays;
 
@@ -73,7 +74,42 @@ public class GameBoard {
                      .reduce(0L, (a, b) -> a + b);
     }
 
-    private void initializeGameBoard() {
+    @VisibleForTesting
+    protected void updateSurroundingBombs() {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells.length; j++) {
+                if (cells[i][j].getContent().equals(CellContent.EMPTY)) {
+                    this.updateSurroundingBombsForCell(i, j);
+                }
+            }
+        }
+    }
+
+    protected void updateSurroundingBombsForCell(int row, int col) {
+        int startingCheckRow = Math.max(0, row - 1);
+        int startingCheckCol = Math.max(0, col - 1);
+
+        int lastCheckRow = Math.min( this.rows - 1, row + 1);
+        int lastCheckCol = Math.min( this.columns - 1, col + 1);
+
+        int totalBombs = 0;
+
+        for (int i = startingCheckRow; i <= lastCheckRow; i++) {
+            for (int j = startingCheckCol; j <= lastCheckCol; j++) {
+                if (cells[i][j].getContent().equals(CellContent.BOMB)) {
+                    totalBombs++;
+                }
+            }
+        }
+
+        if (totalBombs > 0) {
+            cells[row][col].setContent(CellContent.HINT);
+            cells[row][col].setSurroundingBombs(totalBombs);
+        }
+    }
+
+    @VisibleForTesting
+    protected void initializeGameBoard() {
         int numberOfAddedBombs = 0;
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
