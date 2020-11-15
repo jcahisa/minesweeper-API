@@ -9,7 +9,6 @@ import gojoego.exception.InvalidCellException;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
-import java.util.logging.Logger;
 
 public class GameBoard {
     private int rows;
@@ -21,7 +20,7 @@ public class GameBoard {
         // Jackson deserialization
     }
 
-    public GameBoard(int rows, int columns, int numberOfBombs) {
+    public GameBoard(int rows, int columns, int numberOfBombs) throws BusinessLogicException {
         this.rows = rows;
         this.columns = columns;
         this.cells = new Cell[rows][columns];
@@ -170,7 +169,7 @@ public class GameBoard {
     }
 
     @VisibleForTesting
-    protected void initializeGameBoard() {
+    protected void initializeGameBoard() throws BusinessLogicException {
         int numberOfAddedBombs = 0;
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
@@ -186,6 +185,8 @@ public class GameBoard {
         if (numberOfAddedBombs < this.numberOfBombs) {
             completeMissingBombs(numberOfAddedBombs);
         }
+
+        updateSurroundingBombsHints();
     }
 
     // 'not randomly' adding bombs

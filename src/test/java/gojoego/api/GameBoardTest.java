@@ -9,7 +9,7 @@ import static org.junit.Assert.assertNotNull;
 public class GameBoardTest {
 
     @Test
-    public void createNewGameBoardTest() {
+    public void createNewGameBoardTest() throws BusinessLogicException {
         final GameBoard gameBoard = new GameBoard(10, 10, 10);
         assertEquals(10, gameBoard.getRows());
         assertEquals(10, gameBoard.getColumns());

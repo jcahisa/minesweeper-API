@@ -1,6 +1,7 @@
 package gojoego.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import gojoego.exception.BusinessLogicException;
 import org.joda.time.DateTime;
 
 import java.util.UUID;
@@ -16,7 +17,7 @@ public class Game {
         // Jackson deserialization
     }
 
-    public Game(UUID userId) {
+    public Game(UUID userId) throws BusinessLogicException {
         this.id = UUID.randomUUID();
         this.userId = userId;
         this.startTime = DateTime.now();
@@ -68,4 +69,13 @@ public class Game {
     public void setGameBoard(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
     }
+
+    public void toggleFlagOnCell(int row, int col) throws BusinessLogicException {
+        gameBoard.toggleFlagOnCell(row, col);
+    }
+
+    public void uncoverCell(int row, int col) throws BusinessLogicException {
+        gameBoard.uncoverCell(row, col);
+    }
+
 }
