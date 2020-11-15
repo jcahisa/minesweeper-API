@@ -22,9 +22,6 @@ import java.util.UUID;
 public class GameResource {
     private final Map<UUID, Game> activeGames = new HashMap<>();
 
-    public GameResource() {
-    }
-
     @POST
     @Timed
     @Path("/{userId}")

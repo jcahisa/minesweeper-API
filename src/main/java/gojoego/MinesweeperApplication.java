@@ -1,11 +1,26 @@
 package gojoego;
 
+import gojoego.api.Game;
+import gojoego.api.User;
+import gojoego.db.GameDAO;
+import gojoego.db.UserDAO;
+import gojoego.exception.BusinessLogicExceptionMapper;
 import gojoego.resources.GameResource;
+import gojoego.resources.UserResource;
 import io.dropwizard.Application;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 public class MinesweeperApplication extends Application<MinesweeperConfiguration> {
+
+    private final HibernateBundle<MinesweeperConfiguration> hibernate = new HibernateBundle<MinesweeperConfiguration>(User.class, Game.class) {
+        @Override
+        public DataSourceFactory getDataSourceFactory(MinesweeperConfiguration configuration) {
+            return configuration.getDataSourceFactory();
+        }
+    };
 
     public static void main(final String[] args) throws Exception {
         new MinesweeperApplication().run(args);
@@ -18,7 +33,7 @@ public class MinesweeperApplication extends Application<MinesweeperConfiguration
 
     @Override
     public void initialize(final Bootstrap<MinesweeperConfiguration> bootstrap) {
-        // TODO: application initialization
+        bootstrap.addBundle(hibernate);
     }
 
     @Override
@@ -26,6 +41,11 @@ public class MinesweeperApplication extends Application<MinesweeperConfiguration
                     final Environment environment) {
         final GameResource gameResource = new GameResource();
         environment.jersey().register(gameResource);
+
+        final UserDAO dao = new UserDAO(hibernate.getSessionFactory());
+        final GameDAO gameDao = new GameDAO(hibernate.getSessionFactory());
+        environment.jersey().register(new UserResource(dao, gameDao));
+        environment.jersey().register(new BusinessLogicExceptionMapper());
     }
 
 }

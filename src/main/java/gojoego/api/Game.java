@@ -1,16 +1,33 @@
 package gojoego.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import gojoego.db.GameBoardConverter;
 import gojoego.exception.BusinessLogicException;
 import org.joda.time.DateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import java.util.UUID;
 
+@Entity
+@Table(name = "minesweeper_games")
+@NamedQueries({
+        @NamedQuery(
+                name = "gojoego.api.Game.findActiveGames",
+                query = "select g from User u, Game g where u.id = :userId and g.userId = u.id"
+        )
+})
 public class Game {
     private UUID id;
     private UUID userId;
     private DateTime startTime;
     private GameStatus status;
+
     private GameBoard gameBoard;
 
     public Game() {
@@ -26,6 +43,8 @@ public class Game {
     }
 
     @JsonProperty
+    @Id
+    @Column(name = "id")
     public UUID getId() {
         return id;
     }
@@ -35,6 +54,7 @@ public class Game {
     }
 
     @JsonProperty
+    @Column(name = "userId")
     public UUID getUserId() {
         return userId;
     }
@@ -44,6 +64,7 @@ public class Game {
     }
 
     @JsonProperty
+    @Column(name = "startTime")
     public DateTime getStartTime() {
         return startTime;
     }
@@ -53,6 +74,7 @@ public class Game {
     }
 
     @JsonProperty
+    @Column(name = "status")
     public GameStatus getStatus() {
         return status;
     }
@@ -62,6 +84,8 @@ public class Game {
     }
 
     @JsonProperty
+    @Column(name = "gameboard")
+    @Convert(converter = GameBoardConverter.class)
     public GameBoard getGameBoard() {
         return gameBoard;
     }

@@ -24,6 +24,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dropwizard.version>2.0.15</dropwizard.version>
+        <postgresql.version>42.2.18</postgresql.version>
         <mainClass>gojoego.MinesweeperApplication</mainClass>
     </properties>
 
@@ -49,6 +50,14 @@
             <artifactId>dropwizard-testing</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-hibernate</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-jdbi3</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
         </dependency>
@@ -59,6 +68,11 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
     </dependencies>
 
