@@ -2,10 +2,14 @@ package gojoego.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.annotations.VisibleForTesting;
+import gojoego.exception.BusinessLogicException;
+import gojoego.exception.FlagNotAllowedOnCellException;
+import gojoego.exception.InvalidCellException;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
+import java.util.logging.Logger;
 
 public class GameBoard {
     private int rows;
@@ -76,48 +80,75 @@ public class GameBoard {
                      .reduce(0L, (a, b) -> a + b);
     }
 
-    public CellContent uncoverCell(int row, int col) {
-        cells[row][col].uncover();
-        if (cells[row][col].getContent().equals(CellContent.EMPTY)) {
+    public CellContent uncoverCell(int row, int col) throws BusinessLogicException {
+        final Cell cell = getCell(row, col);
+        cell.uncover();
+        if (cell.isEmpty()) {
             uncoverEmptyNeighbors(row, col);
         }
-        return cells[row][col].getContent();
+        return cell.getContent();
+    }
+
+    public void toggleFlagOnCell(int row, int col) throws BusinessLogicException {
+        final Cell cell = getCell(row, col);
+        if (cell.isUncovered()) {
+            throw new FlagNotAllowedOnCellException("Is not allowed to flag an uncovered cell");
+        }
+        cell.toogleFlag();
+    }
+
+    public Cell getCell(int row, int col) throws BusinessLogicException {
+        if (row >= this.rows || col >= this.columns || row < 0 || col < 0) {
+            throw new InvalidCellException("Requested Cell is invalid for this game");
+        }
+        return cells[row][col];
     }
 
     @VisibleForTesting
-    protected void uncoverEmptyNeighbors(int row, int col) {
+    protected void uncoverEmptyNeighbors(int row, int col) throws BusinessLogicException {
         applyFunctionOnNeighborhood(row, col, (Integer i, Integer j) -> {
-            final Cell cell = cells[i.intValue()][j.intValue()];
-            if (!cell.isUncovered() && cell.isEmpty()) {
-                cell.uncover();
-                uncoverEmptyNeighbors(i.intValue(), j.intValue());
+            try {
+                final Cell cell = getCell(i.intValue(), j.intValue());
+                if (!cell.isUncovered() && cell.isEmpty()) {
+                    cell.uncover();
+                    uncoverEmptyNeighbors(i.intValue(), j.intValue());
+                }
+            } catch (BusinessLogicException e) {
+                final String errorMessage = String.format("An attempt to access an invalid cell was made - row = %s, col = %s", i.intValue(), j.intValue());
+                System.out.println(errorMessage);
             }
         });
     }
 
     @VisibleForTesting
-    protected void updateSurroundingBombsHints() {
+    protected void updateSurroundingBombsHints() throws BusinessLogicException {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
-                if (cells[i][j].getContent().equals(CellContent.EMPTY)) {
+                if (getCell(i, j).isEmpty()) {
                     this.updateSurroundingBombsForCell(i, j);
                 }
             }
         }
     }
 
-    private void updateSurroundingBombsForCell(int row, int col) {
+    private void updateSurroundingBombsForCell(int row, int col) throws BusinessLogicException {
         AtomicInteger totalBombs = new AtomicInteger();
 
         applyFunctionOnNeighborhood(row, col, (Integer i, Integer j) -> {
-            if (cells[i.intValue()][j.intValue()].getContent().equals(CellContent.BOMB)) {
-                totalBombs.getAndIncrement();
+            try {
+                if (getCell(i.intValue(), j.intValue()).isBomb()) {
+                    totalBombs.getAndIncrement();
+                }
+            } catch (BusinessLogicException e) {
+                final String errorMessage = String.format("An attempt to access an invalid cell was made - row = %s, col = %s", i.intValue(), j.intValue());
+                System.out.println(errorMessage);
             }
         });
 
         if (totalBombs.get() > 0) {
-            cells[row][col].setContent(CellContent.HINT);
-            cells[row][col].setSurroundingBombs(totalBombs.get());
+            final Cell cell = getCell(row, col);
+            cell.setContent(CellContent.HINT);
+            cell.setSurroundingBombs(totalBombs.get());
         }
     }
 

@@ -1,8 +1,10 @@
 package gojoego.api;
 
+import gojoego.exception.BusinessLogicException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class GameBoardTest {
 
@@ -21,7 +23,7 @@ public class GameBoardTest {
     }
 
     @Test
-    public void updateSurroundingBombsTest() {
+    public void updateSurroundingBombsTest() throws Exception {
 
         // 1's indicate where the bombs will be set
         final GameBoard gameBoard = createTestGameBoard(new int[][] {
@@ -65,7 +67,7 @@ public class GameBoardTest {
     }
 
     @Test
-    public void uncoverCellTest() {
+    public void uncoverCellTest() throws Exception {
 
         // 1's indicate where the bombs will be set
         final GameBoard gameBoard = createTestGameBoard(new int[][] {
@@ -110,7 +112,27 @@ public class GameBoardTest {
         assertEquals(CellStatus.COVERED, cells[4][4].getStatus());
     }
 
-    private GameBoard createTestGameBoard(int[][] bombLocations) {
+    @Test
+    public void getCellTest() throws Exception {
+
+        // 1's indicate where the bombs will be set
+        final GameBoard gameBoard = createTestGameBoard(new int[][]{
+                {1, 0},
+                {0, 0}
+        });
+        final Cell cell = gameBoard.getCell(0, 0);
+        assertEquals(cell.getContent(), CellContent.BOMB);
+
+        Exception thrownException = null;
+        try {
+            final Cell invalidCell = gameBoard.getCell(2, 0);
+        } catch (Exception e) {
+            thrownException = e;
+        }
+        assertNotNull(thrownException);
+    }
+
+    private GameBoard createTestGameBoard(int[][] bombLocations) throws BusinessLogicException {
         final GameBoard gameBoard = new GameBoard();
         final int rows = bombLocations.length;
         final int cols = bombLocations[0].length;

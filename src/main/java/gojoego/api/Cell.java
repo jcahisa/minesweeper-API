@@ -53,4 +53,16 @@ public class Cell {
     public boolean isEmpty() {
         return content.equals(CellContent.EMPTY);
     }
+
+    public boolean isBomb() {
+        return content.equals(CellContent.BOMB);
+    }
+
+    public void toogleFlag() {
+        if (status.equals(CellStatus.FLAGGED)) {
+            setStatus(CellStatus.COVERED);
+        } else {
+            setStatus(CellStatus.FLAGGED);
+        }
+    }
 }
