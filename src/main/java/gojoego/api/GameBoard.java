@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 
 public class GameBoard {
     private int rows;
@@ -74,8 +76,27 @@ public class GameBoard {
                      .reduce(0L, (a, b) -> a + b);
     }
 
+    public CellContent uncoverCell(int row, int col) {
+        cells[row][col].uncover();
+        if (cells[row][col].getContent().equals(CellContent.EMPTY)) {
+            uncoverEmptyNeighbors(row, col);
+        }
+        return cells[row][col].getContent();
+    }
+
     @VisibleForTesting
-    protected void updateSurroundingBombs() {
+    protected void uncoverEmptyNeighbors(int row, int col) {
+        applyFunctionOnNeighborhood(row, col, (Integer i, Integer j) -> {
+            final Cell cell = cells[i.intValue()][j.intValue()];
+            if (!cell.isUncovered() && cell.isEmpty()) {
+                cell.uncover();
+                uncoverEmptyNeighbors(i.intValue(), j.intValue());
+            }
+        });
+    }
+
+    @VisibleForTesting
+    protected void updateSurroundingBombsHints() {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
                 if (cells[i][j].getContent().equals(CellContent.EMPTY)) {
@@ -85,27 +106,36 @@ public class GameBoard {
         }
     }
 
-    protected void updateSurroundingBombsForCell(int row, int col) {
+    private void updateSurroundingBombsForCell(int row, int col) {
+        AtomicInteger totalBombs = new AtomicInteger();
+
+        applyFunctionOnNeighborhood(row, col, (Integer i, Integer j) -> {
+            if (cells[i.intValue()][j.intValue()].getContent().equals(CellContent.BOMB)) {
+                totalBombs.getAndIncrement();
+            }
+        });
+
+        if (totalBombs.get() > 0) {
+            cells[row][col].setContent(CellContent.HINT);
+            cells[row][col].setSurroundingBombs(totalBombs.get());
+        }
+    }
+
+    private void applyFunctionOnNeighborhood(int row, int col, BiConsumer<Integer, Integer> function) {
         int startingCheckRow = Math.max(0, row - 1);
         int startingCheckCol = Math.max(0, col - 1);
 
         int lastCheckRow = Math.min( this.rows - 1, row + 1);
         int lastCheckCol = Math.min( this.columns - 1, col + 1);
 
-        int totalBombs = 0;
-
         for (int i = startingCheckRow; i <= lastCheckRow; i++) {
             for (int j = startingCheckCol; j <= lastCheckCol; j++) {
-                if (cells[i][j].getContent().equals(CellContent.BOMB)) {
-                    totalBombs++;
+                if (!(i == row && j == col)) {
+                    function.accept(i, j);
                 }
             }
         }
 
-        if (totalBombs > 0) {
-            cells[row][col].setContent(CellContent.HINT);
-            cells[row][col].setSurroundingBombs(totalBombs);
-        }
     }
 
     @VisibleForTesting

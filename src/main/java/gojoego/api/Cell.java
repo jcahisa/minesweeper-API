@@ -41,4 +41,16 @@ public class Cell {
     public void setSurroundingBombs(int surroundingBombs) {
         this.surroundingBombs = surroundingBombs;
     }
+
+    public void uncover() {
+        this.status = CellStatus.UNCOVERED;
+    }
+
+    public boolean isUncovered() {
+        return status.equals(CellStatus.UNCOVERED);
+    }
+
+    public boolean isEmpty() {
+        return content.equals(CellContent.EMPTY);
+    }
 }
