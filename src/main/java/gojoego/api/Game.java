@@ -27,7 +27,6 @@ public class Game {
     private UUID userId;
     private DateTime startTime;
     private GameStatus status;
-
     private GameBoard gameBoard;
 
     public Game() {
@@ -84,7 +83,7 @@ public class Game {
     }
 
     @JsonProperty
-    @Column(name = "gameboard")
+    @Column(name = "gameboard", columnDefinition="TEXT")
     @Convert(converter = GameBoardConverter.class)
     public GameBoard getGameBoard() {
         return gameBoard;

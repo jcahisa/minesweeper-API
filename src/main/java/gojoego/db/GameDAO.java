@@ -1,7 +1,6 @@
 package gojoego.db;
 
 import gojoego.api.Game;
-import gojoego.api.User;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

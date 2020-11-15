@@ -22,15 +22,6 @@ import java.util.UUID;
 public class GameResource {
     private final Map<UUID, Game> activeGames = new HashMap<>();
 
-    @POST
-    @Timed
-    @Path("/{userId}")
-    public Game createGame(@PathParam("userId") UUID userId) throws BusinessLogicException {
-        final Game newGame = new Game(userId);
-        activeGames.put(newGame.getId(), newGame);
-        return newGame;
-    }
-
     @GET
     @Timed
     @Path("/{gameId}")

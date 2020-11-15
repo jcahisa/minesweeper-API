@@ -54,6 +54,15 @@ public class UserResource {
         return gameDAO.findActiveGamesForUser(userId);
     }
 
+    @POST
+    @Timed
+    @UnitOfWork
+    @Path("/{userId}/createGame")
+    public Game createGame(@PathParam("userId") UUID userId) throws BusinessLogicException {
+        final Game newGame = new Game(userId);
+        return gameDAO.create(newGame);
+    }
+
     @GET
     @Path("/all")
     @Timed

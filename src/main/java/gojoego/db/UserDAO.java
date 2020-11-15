@@ -1,12 +1,10 @@
 package gojoego.db;
 
-import gojoego.api.Game;
 import gojoego.api.User;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
-import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
