@@ -96,11 +96,31 @@ public class GameBoard {
         cell.toogleFlag();
     }
 
+    public void addBomb(int row, int col) throws BusinessLogicException {
+        Cell cell = getCell(row, col);
+        if (!cell.isBomb()) {
+            cell.setContent(CellContent.BOMB);
+            this.numberOfBombs++;
+        }
+    }
+
     public Cell getCell(int row, int col) throws BusinessLogicException {
         if (row >= this.rows || col >= this.columns || row < 0 || col < 0) {
             throw new InvalidCellException("Requested Cell is invalid for this game");
         }
         return cells[row][col];
+    }
+
+    public long totalCells() {
+        return this.rows * this.columns;
+    }
+
+    public boolean allNonBombsCellsHaveBeenUncovered() {
+        final long uncoveredCells = countCellsWithStatus(CellStatus.UNCOVERED);
+        if (uncoveredCells == totalCells() - this.numberOfBombs) {
+            return true;
+        }
+        return false;
     }
 
     @VisibleForTesting

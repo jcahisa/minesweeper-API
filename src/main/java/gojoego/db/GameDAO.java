@@ -13,7 +13,15 @@ public class GameDAO extends AbstractDAO<Game> {
         super(factory);
     }
 
+    public Game findById(UUID id) {
+        return get(id);
+    }
+
     public Game create(Game game) {
+        return persist(game);
+    }
+
+    public Game update(Game game) {
         return persist(game);
     }
 

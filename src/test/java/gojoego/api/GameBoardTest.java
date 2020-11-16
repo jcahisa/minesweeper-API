@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class GameBoardTest {
 
@@ -132,6 +134,28 @@ public class GameBoardTest {
         assertNotNull(thrownException);
     }
 
+    @Test
+    public void allNonBombsUncoveredTest() throws Exception {
+        final GameBoard gameBoard = createTestGameBoard(new int[][] {
+                {1, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0}
+        });
+        gameBoard.uncoverCell(2, 2);
+        assertFalse(gameBoard.allNonBombsCellsHaveBeenUncovered());
+
+        gameBoard.uncoverCell(0, 1);
+        assertFalse(gameBoard.allNonBombsCellsHaveBeenUncovered());
+
+        gameBoard.uncoverCell(1, 1);
+        assertFalse(gameBoard.allNonBombsCellsHaveBeenUncovered());
+
+        gameBoard.uncoverCell(1, 0);
+        assertTrue(gameBoard.allNonBombsCellsHaveBeenUncovered());
+    }
+
     private GameBoard createTestGameBoard(int[][] bombLocations) throws BusinessLogicException {
         final GameBoard gameBoard = new GameBoard();
         final int rows = bombLocations.length;
@@ -146,7 +170,7 @@ public class GameBoardTest {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (bombLocations[i][j] == 1) {
-                    cells[i][j].setContent(CellContent.BOMB);
+                    gameBoard.addBomb(i, j);
                 }
             }
         }

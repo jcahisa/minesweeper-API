@@ -26,6 +26,7 @@ public class Game {
     private UUID id;
     private UUID userId;
     private DateTime startTime;
+    private DateTime endTime;
     private GameStatus status;
     private GameBoard gameBoard;
 
@@ -37,6 +38,7 @@ public class Game {
         this.id = UUID.randomUUID();
         this.userId = userId;
         this.startTime = DateTime.now();
+        this.endTime = null;
         this.status = GameStatus.ACTIVE;
         this.gameBoard = new GameBoard(10, 10, 10);
     }
@@ -73,6 +75,16 @@ public class Game {
     }
 
     @JsonProperty
+    @Column(name = "endTime")
+    public DateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(DateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    @JsonProperty
     @Column(name = "status")
     public GameStatus getStatus() {
         return status;
@@ -98,7 +110,19 @@ public class Game {
     }
 
     public void uncoverCell(int row, int col) throws BusinessLogicException {
-        gameBoard.uncoverCell(row, col);
+        CellContent content = gameBoard.uncoverCell(row, col);
+        if (content.equals(CellContent.BOMB)) {
+            this.status = GameStatus.LOSE;
+            this.endTime = DateTime.now();
+            return;
+        }
+
+        if (gameBoard.allNonBombsCellsHaveBeenUncovered()) {
+            this.status = GameStatus.WIN;
+            this.endTime = DateTime.now();
+        };
+
+        return;
     }
 
 }

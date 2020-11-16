@@ -39,11 +39,12 @@ public class MinesweeperApplication extends Application<MinesweeperConfiguration
     @Override
     public void run(final MinesweeperConfiguration configuration,
                     final Environment environment) {
-        final GameResource gameResource = new GameResource();
-        environment.jersey().register(gameResource);
-
         final UserDAO dao = new UserDAO(hibernate.getSessionFactory());
         final GameDAO gameDao = new GameDAO(hibernate.getSessionFactory());
+
+        final GameResource gameResource = new GameResource(gameDao);
+        environment.jersey().register(gameResource);
+
         environment.jersey().register(new UserResource(dao, gameDao));
         environment.jersey().register(new BusinessLogicExceptionMapper());
     }
