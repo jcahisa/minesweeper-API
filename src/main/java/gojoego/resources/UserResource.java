@@ -30,18 +30,23 @@ public class UserResource {
         this.gameDAO = gameDAO;
     }
 
+    @GET
+    @Timed
+    @UnitOfWork
+    @Path("/{userName}")
+    public Optional<User> getUser(@PathParam("userName") String userName) throws BusinessLogicException {
+        return dao.findByUserName(userName);
+    }
+
     @POST
     @Timed
     @UnitOfWork
     @Path("/{userName}")
     public User createUser(@PathParam("userName") String userName) throws BusinessLogicException {
-        System.out.println(String.format("creating user with name = %s", userName));
         final Optional<User> optionalExistingUser = dao.findByUserName(userName);
         if (optionalExistingUser.isPresent()) {
-            System.out.println("User Already Exists");
             throw new UserNameAlreadyExists("User name already exists");
         }
-        System.out.println(String.format("Create new user with userName = %s ", userName));
         final User newUser = new User(userName);
         return dao.create(newUser);
     }
