@@ -5,7 +5,7 @@ Duplicate config.yml as config-local.yml and modify with your settings
 # API - HIGH LEVEL VIEW
 
 ## Users
-* [Get User by user Name](minesweeper-API.md#Get-User-by-user-Name) : `/user/{userName}` 
+* [Get User by user Name](doc/minesweeper-API.md#Get-User-by-user-Name) : `/user/{userName}` 
     Get User by user Name              GET     /user/{userName}
     Create User                        POST    /user/{userName} 
     Get all active Games for User      GET     /user/{userId}/activeGames 
