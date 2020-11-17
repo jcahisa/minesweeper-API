@@ -2,16 +2,17 @@
 
 Duplicate config.yml as config-local.yml and modify with your settings
 
-API:
+# API - HIGH LEVEL VIEW
 
 ## Users 
-    GET     /user/{userName}                              -> Get user by user Name
-    POST    /user/{userName}                              -> Create new user by username
-    GET     /user/{userId}/activeGames                    -> Get all active Games for a user
-    POST    /user/{userId}/createGame                     -> Create a new Game for the user
-    GET     /user/all                                     -> Get all users
+    Get User by user Name              GET     /user/{userName}
+    Create User                        POST    /user/{userName} 
+    Get all active Games for User      GET     /user/{userId}/activeGames 
+    Create a new Game for the user     POST    /user/{userId}/createGame 
+    Get all users                      GET     /user/all 
 
 ## Games
-    GET     /game/{gameId}                                -> Get Game by Id
-    PUT     /game/{gamedId}/cell/{row}/{col}/toggleFlag   -> Toggle flag for a specif cell
-    PUT     /game/{gamedId}/cell/{row}/{col}/uncoverCell  -> Uncover a cell
+    Get Game by Id                     GET     /game/{gameId} 
+    Toggle flag for a specif cell      PUT     /game/{gamedId}/cell/{row}/{col}/toggleFlag 
+    Uncover a cell                     PUT     /game/{gamedId}/cell/{row}/{col}/uncoverCell
+    
