@@ -1,8 +1,6 @@
-# API - DETAILED
+# DETAILED API - Users  
 
-## Users
-
-### Get User by user Name
+## Get User by user Name
 
 Get the details of user. It's main goal is to identify if a user already exists in the database
 
@@ -10,7 +8,7 @@ Get the details of user. It's main goal is to identify if a user already exists 
 
 **Method** : `GET`
 
-###### Success Response
+### Success Response
 
 **Code** : `200 OK`
 
@@ -25,33 +23,958 @@ For a User with userName gojoego on the local database.
 }
 ```
 
-###### Success Response
+### Failure Response
 
 If the user does not exist
 
 **Code** : `404 NOT FOUND`
 
+## Create User
+Create new user on the system. Only userName is stored in the database
 
-### Create User
-* [Create User](doc/minesweeper-API.md#create-user)                    : `POST    /user/{userName}`
+**URL** : `/user/{userName}`
 
-### Get all active Games for User 
-* [Get all active Games for User](doc/minesweeper-API.md#get-all-active-games-for-user):  `GET     /user/{userId}/activeGames`
+**Method** : `POST`
 
-### Create new Game for user 
-* [Create new Game for user](doc/minesweeper-API.md#create-new-game-for-user):     `POST    /user/{userId}/createGame`
+### Success Response
 
-### Get all users 
-* [Get all users](doc/minesweeper-API.md#get-all-users):                     `GET     /user/all` 
+**Code** : `200 OK`
 
-## Games
+**Content examples**
 
-### Get Game by Id
-* [Get Game by Id](doc/minesweeper-API.md#get-game-by-id): `GET     /game/{gameId}`
+For a User with userName gojoego.
 
-### Toggle flag for cell
-* [Toggle flag for cell](doc/minesweeper-API.md#toggle-flag-for-cell): `PUT     /game/{gamedId}/cell/{row}/{col}/toggleFlag`
+```json
+{
+    "id": "526fc40a-2456-4c0c-898b-e04179082886",
+    "userName": "gojoego"
+}
+```
+
+## Create new Game for user
+Create a new game for the user with the specified parameters.
+
+**URL** : `/user/{userId}/createGame`
+
+**Method** : `POST`
+ 
+### Success Response
+
+**Code** : `200 OK`
+
+**Content examples**
+
+```json
+{
+    "id": "65f89c9c-46bf-4006-a728-94d7aa3df984",
+    "userId": "526fc40a-2456-4c0c-898b-e04179082886",
+    "startTime": 1605615131470,
+    "endTime": null,
+    "status": "ACTIVE",
+    "gameBoard": {
+        "rows": 10,
+        "columns": 10,
+        "cells": [
+            [
+                {
+                    "content": "BOMB",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": true
+                },
+                {
+                    "content": "HINT",
+                    "status": "COVERED",
+                    "surroundingBombs": 2,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                }
+            ],
+            [
+                {
+                    "content": "BOMB",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": true
+                },
+                {
+                    "content": "HINT",
+                    "status": "COVERED",
+                    "surroundingBombs": 3,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                }
+            ],
+            [
+                {
+                    "content": "BOMB",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": true
+                },
+                {
+                    "content": "HINT",
+                    "status": "COVERED",
+                    "surroundingBombs": 3,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                }
+            ],
+            [
+                {
+                    "content": "BOMB",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": true
+                },
+                {
+                    "content": "HINT",
+                    "status": "COVERED",
+                    "surroundingBombs": 3,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                }
+            ],
+            [
+                {
+                    "content": "BOMB",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": true
+                },
+                {
+                    "content": "HINT",
+                    "status": "COVERED",
+                    "surroundingBombs": 3,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                }
+            ],
+            [
+                {
+                    "content": "BOMB",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": true
+                },
+                {
+                    "content": "HINT",
+                    "status": "COVERED",
+                    "surroundingBombs": 3,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                }
+            ],
+            [
+                {
+                    "content": "BOMB",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": true
+                },
+                {
+                    "content": "HINT",
+                    "status": "COVERED",
+                    "surroundingBombs": 3,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                }
+            ],
+            [
+                {
+                    "content": "BOMB",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": true
+                },
+                {
+                    "content": "HINT",
+                    "status": "COVERED",
+                    "surroundingBombs": 3,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                }
+            ],
+            [
+                {
+                    "content": "BOMB",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": true
+                },
+                {
+                    "content": "HINT",
+                    "status": "COVERED",
+                    "surroundingBombs": 3,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                }
+            ],
+            [
+                {
+                    "content": "BOMB",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": true
+                },
+                {
+                    "content": "HINT",
+                    "status": "COVERED",
+                    "surroundingBombs": 2,
+                    "empty": false,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                },
+                {
+                    "content": "EMPTY",
+                    "status": "COVERED",
+                    "surroundingBombs": 0,
+                    "empty": true,
+                    "uncovered": false,
+                    "bomb": false
+                }
+            ]
+        ]
+    }
+}
+```
+
+### Failure Response
+
+If the user does not exist
+
+**Code** : `404 NOT FOUND`
+
+## Get all active Games for User 
+Get all active Games for a User
+
+**URL** : `/user/{userId}/activeGames`
+
+**Method** : `GET`
+
+### Success Response
+
+**Code** : `200 OK`
+
+**Content examples**
+
+```json
+[
+    {
+        "id": "65f89c9c-46bf-4006-a728-94d7aa3df984",
+        "userId": "526fc40a-2456-4c0c-898b-e04179082886",
+        "startTime": 1605615131470,
+        "endTime": null,
+        "status": "ACTIVE",
+        "gameBoard": null
+    }
+]
+```
+
+## Get all users 
+Get all Users
+
+**URL** : `/user/all`
+
+**Method** : `GET`
+
+### Success Response
+
+**Code** : `200 OK`
+
+# DETAILED API - Games
+
+## Get Game by Id
+Get Game by Id
+
+**URL** : `/game/{gameId}`
+
+**Method** : `GET`
+
+### Success Response
+
+**Code** : `200 OK`
+
+## Toggle flag for cell
+Modify the flag status for a cell. The cell should be covered.
+
+**URL** : `/game/{gamedId}/cell/{row}/{col}/toggleFlag`
+
+**Method** : `PUT`
+
+### Success Response
+
+**Code** : `200 OK`
 
 
-### Uncover cell
-* [Uncover cell](doc/minesweeper-API.md#uncover-cell): `PUT     /game/{gamedId}/cell/{row}/{col}/uncoverCell`
+## Uncover cell
+Unconver a cell. You need to verify the Game status code of the response to identify win or lose conditions
+
+**URL** : `/game/{gamedId}/cell/{row}/{col}/uncoverCell`
+
+**Method** : `PUT`
+
+### Success Response
+
+**Code** : `200 OK`
