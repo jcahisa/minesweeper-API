@@ -46,3 +46,5 @@ local-docker-compose.yml
 log4j.local.properties
 last*.gid
 config-local.yml
+ui/node_modules
+ui/dist
